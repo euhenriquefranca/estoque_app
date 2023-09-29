@@ -27,13 +27,10 @@ class ProdutoRepositoryImpl implements ProdutoRepository {
 
   @override
   Future<void> atualizarProduto(Produto produto) async {
-    @override
-    Future<void> atualizarProduto(Produto produto) async {
-      for (int i = 0; i < _produtos.length; i++) {
-        if (_produtos[i].id == produto.id) {
-          _produtos[i] = produto;
-          break;
-        }
+    for (int i = 0; i < _produtos.length; i++) {
+      if (_produtos[i].id == produto.id) {
+        _produtos[i] = produto;
+        break;
       }
     }
   }

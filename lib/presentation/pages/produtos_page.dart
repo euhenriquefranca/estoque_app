@@ -23,34 +23,50 @@ class ProdutosPage extends StatelessWidget {
           ),
         ],
       ),
-      body: BlocBuilder<ProdutoBloc, ProdutoState>(
-        builder: (context, state) {
-          if (state is ProdutoCarregando) {
-            return const Center(child: CircularProgressIndicator());
-          } else if (state is ProdutoCarregado) {
-            return ListView.builder(
-              itemCount: state.produtos.length,
-              itemBuilder: (ctx, i) => Card(
-                elevation: 5,
-                margin: const EdgeInsets.symmetric(vertical: 8, horizontal: 16),
-                child: ListTile(
-                  leading: CircleAvatar(
-                    child: FittedBox(
-                        child: Text('\$${state.produtos[i].quantidade}')),
-                  ),
-                  title: Text(state.produtos[i].nome),
-                  subtitle: Text(
-                      'Descrição: ${state.produtos[i].descricao ?? "N/A"}'),
-                ),
-              ),
-            );
-          } else if (state is ProdutoErro) {
-            return Center(child: Text(state.mensagem));
-          } else {
-            return const Center(
-                child: Text('Pressione o botão para carregar produtos.'));
+      body: BlocListener<ProdutoBloc, ProdutoState>(
+        listener: (context, state) {
+          if (state is ProdutoInitial) {
+            BlocProvider.of<ProdutoBloc>(context, listen: false)
+                .add(ObterProdutosEvent());
           }
         },
+        child: BlocBuilder<ProdutoBloc, ProdutoState>(
+          builder: (context, state) {
+            if (state is ProdutoCarregando) {
+              return const Center(child: CircularProgressIndicator());
+            } else if (state is ProdutoCarregado) {
+              if (state.produtos.isEmpty) {
+                return const Center(
+                  child: Text('Não há produtos. Adicione alguns!'),
+                );
+              }
+              return ListView.builder(
+                itemCount: state.produtos.length,
+                itemBuilder: (ctx, i) => Card(
+                  elevation: 5,
+                  margin:
+                      const EdgeInsets.symmetric(vertical: 8, horizontal: 16),
+                  child: ListTile(
+                    leading: CircleAvatar(
+                      child: FittedBox(
+                        child: Text('${state.produtos[i].quantidade}'),
+                      ),
+                    ),
+                    title: Text(state.produtos[i].nome),
+                    subtitle: Text(
+                        'Descrição: ${state.produtos[i].descricao ?? "N/A"}'),
+                  ),
+                ),
+              );
+            } else if (state is ProdutoErro) {
+              return Center(child: Text(state.mensagem));
+            } else {
+              return const Center(
+                child: CircularProgressIndicator(),
+              );
+            }
+          },
+        ),
       ),
       floatingActionButton: FloatingActionButton(
         child: const Icon(Icons.add),

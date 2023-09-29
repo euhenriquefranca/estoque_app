@@ -5,7 +5,7 @@ import 'package:estoque_app/domain/respositories/produto_repository.dart';
 import 'package:estoque_app/domain/usecases/adicionar_produto.dart';
 import 'package:estoque_app/domain/usecases/obter_produtos.dart';
 import 'package:estoque_app/presentation/bloc/produto_bloc.dart';
-import 'package:estoque_app/presentation/pages/produtos_page.dart';
+import 'package:estoque_app/presentation/pages/splash_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -50,13 +50,13 @@ class MyApp extends StatelessWidget {
         primarySwatch: Colors.green,
         visualDensity: VisualDensity.adaptivePlatformDensity,
       ),
-      home: BlocProvider(
+      home: BlocProvider<ProdutoBloc>(
         create: (context) => ProdutoBloc(
           adicionarProduto: adicionarProduto,
           obterProdutos: obterProdutos,
           atualizarProduto: AtualizarProduto(produtoRepository),
         ),
-        child: const ProdutosPage(),
+        child: const SplashScreen(),
       ),
     );
   }

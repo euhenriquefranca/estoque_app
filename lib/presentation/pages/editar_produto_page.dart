@@ -7,9 +7,9 @@ import 'package:estoque_app/presentation/bloc/produto_bloc.dart';
 
 class EditarProdutoPage extends StatelessWidget {
   final Produto produto;
-  final nomeController;
-  final quantidadeController;
-  final descricaoController;
+  final TextEditingController nomeController;
+  final TextEditingController quantidadeController;
+  final TextEditingController descricaoController;
 
   EditarProdutoPage({super.key, required this.produto})
       : nomeController = TextEditingController(text: produto.nome),
@@ -23,7 +23,6 @@ class EditarProdutoPage extends StatelessWidget {
     final descricao = descricaoController.text;
 
     if (nome.isEmpty || quantidade <= 0) {
-      // mostrar uma mensagem de erro
       return;
     }
 

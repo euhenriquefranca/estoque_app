@@ -40,7 +40,7 @@ class AdicionarProdutoPage extends StatelessWidget {
         title: const Text('Adicionar Produto'),
       ),
       body: Padding(
-        padding: const EdgeInsets.all(8.0),
+        padding: const EdgeInsets.all(16.0),
         child: Column(
           children: [
             TextField(
@@ -60,9 +60,12 @@ class AdicionarProdutoPage extends StatelessWidget {
               decoration: const InputDecoration(labelText: 'Descrição'),
               maxLines: 3,
             ),
-            ElevatedButton(
-              onPressed: () => adicionarProduto(context),
-              child: const Text('Adicionar'),
+            Container(
+              margin: const EdgeInsets.only(top: 16),
+              child: ElevatedButton(
+                onPressed: () => adicionarProduto(context),
+                child: const Text('Adicionar'),
+              ),
             ),
           ],
         ),

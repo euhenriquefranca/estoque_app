@@ -11,11 +11,11 @@ class ProdutoBloc extends Bloc<ProdutoEvent, ProdutoState> {
   final ObterProdutos obterProdutos;
   final AtualizarProduto atualizarProduto;
 
-  ProdutoBloc(
-      {required this.adicionarProduto,
-      required this.obterProdutos,
-      required this.atualizarProduto})
-      : super(ProdutoInitial()) {
+  ProdutoBloc({
+    required this.adicionarProduto,
+    required this.obterProdutos,
+    required this.atualizarProduto,
+  }) : super(ProdutoInitial()) {
     on<AdicionarProdutoEvent>((event, emit) async {
       await adicionarProduto(event.produto);
       emit(ProdutoAdicionado());
@@ -45,6 +45,15 @@ class ProdutoBloc extends Bloc<ProdutoEvent, ProdutoState> {
         emit(ProdutoErro(e.toString()));
       }
     });
+    add(ObterProdutosEvent());
+  }
+
+  @override
+  void onTransition(Transition<ProdutoEvent, ProdutoState> transition) {
+    super.onTransition(transition);
+    if (transition.currentState is ProdutoInitial) {
+      add(ObterProdutosEvent());
+    }
   }
 }
 
